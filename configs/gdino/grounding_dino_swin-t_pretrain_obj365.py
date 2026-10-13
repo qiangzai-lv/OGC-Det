@@ -3,12 +3,12 @@ _base_ = [
     '../_base_mmdet_/schedules/schedule_1x.py', '../_base_mmdet_/default_runtime.py'
 ]
 
-load_from = '/root/shared-nvme/data/pretrain/grounding_dino_swin-t_pretrain_obj365_goldg_grit9m_v3det_20231204_095047-b448804b.pth'  # noqa
+load_from = '/data/data/pretrain/grounding_dino_swin-t_pretrain_obj365_goldg_grit9m_v3det_20231204_095047-b448804b.pth'  # noqa
 
-data_root = '/root/shared-nvme/data/ScanNet_processed_v2/'
-scannet_ann_root = '/root/shared-nvme/data/scannet_coco_v2/'
+data_root = '/data/data/ScanNet_processed_v2/'
+scannet_ann_root = '/data/data/scannet_coco_v2/'
 
-lang_model_name = '/root/shared-nvme/data/pretrain/bert-base-uncased'
+lang_model_name = '/data/data/pretrain/bert-base-uncased'
 
 model = dict(
     type='ReconGroundingDINO',

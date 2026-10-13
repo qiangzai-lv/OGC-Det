@@ -10,13 +10,13 @@ env_cfg = dict(dist_cfg=dict(backend=_dist_backend_))
 
 custom_imports = dict(imports=['recondet'], allow_failed_imports=False)
 
-data_root = '/root/shared-nvme/data/ScanNet_processed_v2'
-scannet_ann_root = '/root/shared-nvme/data/scannet_coco_v2/'
+data_root = '/data/data/ScanNet_processed_v2/'
+scannet_ann_root = '/data/data/scannet_coco_v2/'
 gt_points_dir = f'{data_root}/points'
-vggt_omega_checkpoint = '/root/shared-nvme/data/vggt-omega/vggt_omega_1b_512.pt'
+vggt_omega_checkpoint = '/data/data/pretrain/vggt_omega_1b_512.pt'
 
 grounding_dino_config = 'configs/gdino/grounding_dino_swin-t_pretrain_obj365.py'
-grounding_dino_checkpoint = '/root/shared-nvme/data/pretrain/grounding_dino_swin-t_pretrain_obj365_goldg_grit9m_v3det_20231204_095047-b448804b.pth'
+grounding_dino_checkpoint = '/data/data/pretrain/grounding_dino_swin-t_pretrain_obj365_goldg_grit9m_v3det_20231204_095047-b448804b.pth'
 grounding_dino_classes = [
     'cabinet', 'bed', 'chair', 'sofa', 'table', 'door', 'window', 'bookshelf',
     'picture', 'counter', 'desk', 'curtain', 'refrigerator', 'shower curtain',

@@ -3,7 +3,7 @@ set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 PYTHON_BIN="${PYTHON_BIN:-python}"
-OUTPUT_ROOT="${OUTPUT_ROOT:-/root/shared-nvme/data/scannet_coco_v2}"
+OUTPUT_ROOT="${OUTPUT_ROOT:-/data/data/scannet_coco_v2}"
 SPLIT="${SPLIT:-all}"
 
 if [[ "${SPLIT}" != "train" && "${SPLIT}" != "test" && "${SPLIT}" != "all" ]]; then

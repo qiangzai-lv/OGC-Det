@@ -27,7 +27,7 @@ from recondet.vggt_lora import (
     log_vggt_lora_summary, vggt_feature_grad_context)
 from recondet.prediction_visualization import (
     save_scene_reconstruction_visualizations)
-from configs.recondet.visualization_colors import CLASS_COLORS
+from recondet.visualization_colors import CLASS_COLORS
 from vggt_omega.models import VGGTOmega
 from vggt_omega.utils.pose_enc import encoding_to_camera
 

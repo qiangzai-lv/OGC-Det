@@ -3,8 +3,8 @@ set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 PYTHON_BIN="${PYTHON_BIN:-python}"
-DATA_ROOT="${DATA_ROOT:-/root/shared-nvme/data/ScanNet_processed_v2}"
-OUTPUT_ROOT="${OUTPUT_ROOT:-/root/shared-nvme/data/scannet_coco_v2}"
+DATA_ROOT="${DATA_ROOT:-/data/data/ScanNet_processed_ids}"
+OUTPUT_ROOT="${OUTPUT_ROOT:-/data/data/scannet_coco_ids}"
 MAX_PARALLEL="${MAX_PARALLEL:-8}"
 SHARD_START="${SHARD_START:-0}"
 SHARD_END="${SHARD_END:-${MAX_PARALLEL}}"
