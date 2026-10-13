@@ -193,7 +193,7 @@ class ProjectedQueryDeformableAttention(nn.Module):
             self, projected_query, query_pos, value, spatial_shapes,
             level_start_index, reference_points, valid_ratios, value_repeat,
             key_padding_mask=None, output_dtype=None):
-        """Attend to a target-view value shared by repeated source views."""
+        """Share target values by packing source views into the query axis."""
         attention = self.attention
         batch_size, num_value, _ = value.shape
         repeated_batch_size = batch_size * value_repeat
@@ -228,10 +228,7 @@ class ProjectedQueryDeformableAttention(nn.Module):
                     key_padding_mask[..., None], 0.0)
             projected_value = projected_value.view(
                 batch_size, num_value, attention.num_heads, -1)
-            projected_value = projected_value.unsqueeze(1).expand(
-                -1, value_repeat, -1, -1, -1).reshape(
-                    repeated_batch_size, num_value, attention.num_heads,
-                    -1).contiguous()
+            projected_value = projected_value.contiguous()
 
             num_queries = attention_query.shape[1]
             sampling_offsets = attention.sampling_offsets(
@@ -263,6 +260,16 @@ class ProjectedQueryDeformableAttention(nn.Module):
                     'Last dim of reference_points must be 2 or 4, but got '
                     f'{scaled_reference_points.shape[-1]}')
 
+            # Each query samples independently. Keep projections in their
+            # original layout, but share one value tensor across source views
+            # inside the sampling operator. Restore the layout before dropout.
+            sampling_locations = sampling_locations.reshape(
+                batch_size, value_repeat * num_queries, attention.num_heads,
+                attention.num_levels, attention.num_points, 2).contiguous()
+            attention_weights = attention_weights.reshape(
+                batch_size, value_repeat * num_queries, attention.num_heads,
+                attention.num_levels, attention.num_points).contiguous()
+
             if ((IS_CUDA_AVAILABLE and projected_value.is_cuda) or
                     (IS_MLU_AVAILABLE and projected_value.is_mlu) or
                     (IS_NPU_AVAILABLE and
@@ -275,6 +282,8 @@ class ProjectedQueryDeformableAttention(nn.Module):
                 attended = multi_scale_deformable_attn_pytorch(
                     projected_value, spatial_shapes, sampling_locations,
                     attention_weights)
+            attended = attended.reshape(
+                repeated_batch_size, num_queries, attention.embed_dims)
             attended = attention.output_proj(attended)
             attended = attention.dropout(attended) + torch.zeros_like(
                 projected_query, dtype=torch.float32)

@@ -184,7 +184,7 @@ train_pipeline = [
         n_images=40,
         transforms=[
             dict(type='LoadImageFromFile', file_client_args=dict(backend='disk')),
-            dict(type='Resize', scale=(448, 448), keep_ratio=True, interpolation='bicubic'),
+            dict(type='Resize', scale=(320, 240), keep_ratio=True, interpolation='bicubic'),
         ],
         loading='random'),
     dict(type='PackNeRFDetInputs', keys=train_collect_keys)
@@ -197,7 +197,7 @@ test_pipeline = [
         n_images=50,
         transforms=[
             dict(type='LoadImageFromFile', file_client_args=dict(backend='disk')),
-            dict(type='Resize', scale=(448, 448), keep_ratio=True, interpolation='bicubic'),
+            dict(type='Resize', scale=(320, 240), keep_ratio=True, interpolation='bicubic'),
         ],
         loading='uniform'
     ),
@@ -231,7 +231,7 @@ test_pipeline_2d = [
     dict(type='mmdet.LoadImageFromFile', backend_args=backend_args),
     dict(
         type='mmdet.Resize',
-        scale=(448, 448),
+        scale=(320, 240),
         keep_ratio=True,
         interpolation='bicubic'),
     dict(type='mmdet.LoadAnnotations', with_bbox=True),
